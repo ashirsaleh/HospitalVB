@@ -66,10 +66,11 @@ if (isset($_GET['view'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for ($i = 1; $i < $i;) {;}?>
-                        <?php while ($visitor = $statement->fetch(PDO::FETCH_ASSOC)) { ?>
+                        <?php
+                         $counter = 1;
+                         while ($visitor = $statement->fetch(PDO::FETCH_ASSOC)) { ?>
                         <tr>
-                            <td class="text-center"><?php echo $i ?></td>
+                            <td class="text-center"><?php echo $counter ?></td>
                             <td><?php echo $visitor['fname'] . " " . $visitor['mdname'] ?></td>
                             <td><?php echo $visitor['date'] ?></td>
                             <td><?php echo $visitor['purpose'] ?></td>
@@ -86,8 +87,7 @@ if (isset($_GET['view'])) {
                                     <i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
                             </td>
                         </tr>
-                        <?php $i++ ?>
-                        <?php } ?>
+                        <?php $counter++; } ?>
                         <?php if ($statement->rowCount() < 1) {
                             echo "<tr><td colspan='9'><center><h2 style='color:red';>There are no Visitor.";
                         } ?>
