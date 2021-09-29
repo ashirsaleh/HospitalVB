@@ -152,7 +152,7 @@ if (isset($_GET['del'])) {
                             <td><?php echo $patient['pid'] ?></td>
                             <td><?php echo $patient['block'] ?></td>
                             <td>
-                                <a href="viewPatient.php?=<?php echo $patient['pid']; ?>" class="btn btn-primary
+                                <a href="viewPatient.php?id=<?php echo $patient['pid']; ?>" class="btn btn-primary
                             btn-sm"><i class="fas fa-file-alt" aria-hidden="true"></i> View</a>
                             </td>
                         </tr>

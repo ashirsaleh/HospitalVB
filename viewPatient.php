@@ -1,14 +1,19 @@
 <?php require 'includes/header.php' ?>
 <?php
 if (isset($_GET['id'])) {
+    $statement = $db->prepare("SELECT * FROM `patients` WHERE `pid`=?");
+    $statement->execute(array($_GET['id']));
+    $patient = $statement->fetch(PDO::FETCH_ASSOC);
+    if($statement->rowCount() < 0){
+        echo "User not found";
+    }
+}else{
+    header('location: ./');
 }
-$statement = $db->prepare("SELECT * FROM `patients`");
-$statement->execute(array());
 
 
 $prepare = $db->prepare("SELECT * FROM `visitors`");
-$prepare->execute(array());
-
+$prepare->execute();
 
 ?> <div class="page-breadcrumb">
     <div class="row">
@@ -29,10 +34,6 @@ $prepare->execute(array());
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-9">
-            <?php
-            $patient = $statement->fetch(PDO::FETCH_ASSOC);
-
-            ?>
             <div class="card card-body printableArea">
                 <h3><b>PATIENT</b> <span class="pull-right"><?php echo $patient['pid']; ?></span></h3>
                 <hr>
@@ -40,9 +41,6 @@ $prepare->execute(array());
                     <div class="col-md-12">
                         <div class="pull-left">
                             <address>
-                                <h3> &nbsp;<b
-                                        class="text-danger"><?php echo $visitor['fname'] . " " . $visitor['lname']; ?></b>
-                                </h3>
                                 <p class="text-muted ms-1">E 104, Dharti-2,
                                     <br /> Nr' Viswakarma Temple,
                                     <br /> Talaja Road,
@@ -86,18 +84,16 @@ $prepare->execute(array());
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php for($i=1; $i<$i;)?>
-                                    <?php while ($visitor = $prepare->fetch(PDO::FETCH_ASSOC)) { ?>
+                                    <?php $counter = 1; while ($visitor = $prepare->fetch(PDO::FETCH_ASSOC)) { ?>
                                     <tr>
-                                        <td class="text-center"><?php echo $i ?></td>
+                                        <td class="text-center"><?php echo $counter ?></td>
                                         <td><?php echo $visitor['fname'] . " " . $visitor['mdname'] ?></td>
                                         <td><?php echo $visitor['date'] ?></td>
                                         <td><?php echo $visitor['purpose'] ?></td>
                                         <td><?php echo $visitor['tin'] ?></td>
                                         <td><?php echo $visitor['tout'] ?></td>
                                     </tr>
-                                    <?php $i++; ?>
-                                    <?php } ?>
+                                    <?php $counter++; } ?>
                                 </tbody>
                             </table>
                         </div>
