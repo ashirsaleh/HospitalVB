@@ -11,8 +11,8 @@ if (isset($_POST['updateProfile'])) {
     $about = $_POST['about'];
 
     $password = password_hash($password, PASSWORD_DEFAULT);
-    $updateProfile = $db->prepare('UPDATE `users` SET `password` = ?, `pnumber` = ?, `email` = ?, `poaddress` = ?, `address` = ?, `region` = ?, `city` = ?, `about` = ? ');
-    if ($updateProfile->execute(array($password, $pnumber, $email, $poaddress, $address, $region, $city, $about))) {
+    $updateProfile = $db->prepare('UPDATE `users` SET `pnumber` = ?, `email` = ?, `poaddress` = ?, `address` = ?, `region` = ?, `city` = ?, `about` = ? WHERE id = ?');
+    if ($updateProfile->execute(array($pnumber, $email, $poaddress, $address, $region, $city, $about, $_SESSION['user']['id']))) {
         echo 'passes';
     }
 }
@@ -80,7 +80,7 @@ if (isset($_POST['updateProfile'])) {
                                         <div class="form-group">
                                             <label>Phone <small class="text-muted">0xxx xxx xxx</small></label>
                                             <input type="number" name="pnumber" class="form-control phone-inputmask"
-                                                id="phone-mask" placeholder="Enter Phone Number">
+                                                id="phone-mask" value="<?php echo $_SESSION['user']['pnumber'];?>">
                                         </div>
                                     </div>
                                 </div>
@@ -89,14 +89,14 @@ if (isset($_POST['updateProfile'])) {
                                         <label class="bmd-label-floating">Email Address <small
                                                 class="text-muted">one@domain.com</small></label>
                                         <input type="email" name="email" class="form-control"
-                                            placeholder="Enter your email address">
+                                            value="<?php echo $_SESSION['user']['email'];?>">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Postal Address </label>
                                         <input type="address" name="poaddress" class="form-control"
-                                            placeholder="Enter your postal address">
+                                            value="<?php echo $_SESSION['user']['poaddress'];?>">
                                     </div>
                                 </div>
                             </div>
@@ -105,19 +105,22 @@ if (isset($_POST['updateProfile'])) {
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Physical Adress</label>
-                                        <input type="text" name="address" class="form-control">
+                                        <input type="text" name="address" class="form-control"
+                                            value="<?php echo $_SESSION['user']['address'];?>">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Region</label>
-                                        <input type="text" name="region" class="form-control">
+                                        <input type="text" name="region" class="form-control"
+                                            value="<?php echo $_SESSION['user']['region'];?>">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">City</label>
-                                        <input type="text" name="city" class="form-control">
+                                        <input type="text" name="city" class="form-control"
+                                            value="<?php echo $_SESSION['user']['city'];?>">
                                     </div>
                                 </div>
                             </div>
@@ -127,7 +130,8 @@ if (isset($_POST['updateProfile'])) {
                                     <div class="form-group">
                                         <label>About Me</label>
                                         <div class="form-group">
-                                            <textarea class="form-control" name="about" rows="5"></textarea>
+                                            <textarea class="form-control" name="about"
+                                                rows="5"><?php echo $_SESSION['user']['pnumber'];?></textarea>
                                         </div>
                                     </div>
                                 </div>
