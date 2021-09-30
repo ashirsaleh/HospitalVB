@@ -135,6 +135,9 @@ if (!isset($_SESSION['loggedIn'])){
                         <?php } ?>
                         <?php if($_SESSION['user']['role'] == 'Admin'){ ?>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                href="visitations.php" aria-expanded="false"><i class="mdi mdi-calendar-text"></i><span
+                                    class="hide-menu">Visitations</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="visitors.php" aria-expanded="false"><i
                                     class="me-2 mdi mdi-human-male-female"></i><span
                                     class="hide-menu">Visitors</span></a></li>
