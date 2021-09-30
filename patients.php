@@ -8,7 +8,7 @@ $prepare->execute();
 if (isset($_GET['del'])) {
     $del = $db->prepare("DELETE FROM `patients` WHERE `id` =?");
     if ($del->execute(array($_GET['del']))) {
-        //    echo 'weeee';
+        // $_SESSION['success'] = "Patient has been deleted";
         // header('Location: patients.php');
     } else {
         // echo 'nooo1';
@@ -33,6 +33,11 @@ if (isset($_GET['del'])) {
         </div>
     </div>
 </div>
+<?php if (isset($_SESSION['success'])): ?>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Successfully!</strong> <?=$_SESSION['success'];?>
+</div>
+<?php endif;?>
 <div class=" container-fluid">
     <div class="card">
         <div class="card-body">
@@ -56,11 +61,11 @@ if (isset($_GET['del'])) {
                             <td><?php echo $patient['block'] ?></td>
                             <td><?php echo $patient['block'] ?></td>
                             <td class="text-center">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fas fa-file-alt"
-                                        aria-hidden="true"></i>
+                                <a href="viewPatient.php?id=<?php echo $patient['pid']?>"
+                                    class="btn btn-primary btn-sm"><i class="fas fa-file-alt" aria-hidden="true"></i>
                                     View</a>
-                                <a href="" class="btn btn-warning btn-sm mx-1"><i class="fa fa-user-plus"
-                                        aria-hidden="true"></i>
+                                <a href="#addVisitorModal" data-bs-toggle="modal" class="btn btn-warning btn-sm mx-1"><i
+                                        class="fa fa-user-plus" aria-hidden="true"></i>
                                     Add Visitor</a>
                                 <a href="patients.php?del=<?php echo $patient['id'] ?>" class="btn btn-danger btn-sm"><i
                                         class="fa fa-trash" aria-hidden="true"></i> Delete</a>
@@ -74,6 +79,79 @@ if (isset($_GET['del'])) {
                         ?>
                     </tbody>
                 </table>
+            </div>
+            <div id="addVisitorModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Visitor to: </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="patient.php" method="POST">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div>
+                                            <label class="bmd-label-floating">First Name</label>
+                                            <input class="form-control" type="text" name="fname" id="" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div>
+                                            <label class="bmd-label-floating">Middle Name</label>
+                                            <input class="form-control" type="text" name="mdname" id="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div>
+                                            <label class="bmd-label-floating">Last Name</label>
+                                            <input class="form-control" type="text" name="lname" id="" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row d-flex justify-content-between">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label>Phone</label>
+                                                <input type="number" name="" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">ID Card Type</label>
+                                            <select class="form-control" name="" id="">
+                                                <option value="">NIDA</option>
+                                                <option value="">Votting Card</option>
+                                                <option value="">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">ID Number</label>
+                                            <input type="number" name="" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Time In</label>
+                                            <input type="time" name="" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary">Add Visitor</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
