@@ -3,48 +3,11 @@
 $statement = $db->prepare('SELECT * FROM `users`');
 $statement->execute();
 
-if (isset($_GET['del'])) {
-    $del = $db->prepare("DELETE FROM `users` WHERE `id` =?");
-    if ($del->execute(array($_GET['del']))) {
-        //    echo 'weeee';
-        // header('Location: users.php');
-    } else {
-        echo '';
-    }
-} else {
-    echo '';
-}
 
 $prepare = $db->prepare("SELECT * FROM `patients`");
 $prepare->execute();
 
-if (isset($_GET['del'])) {
-    $del = $db->prepare("DELETE FROM `patients` WHERE `id` =?");
-    if ($del->execute(array($_GET['del']))) {
-        //    echo 'weeee';
-        // header('Location: users.php');
-    } else {
-        echo '';
-    }
-} else {
-    echo '';
-}
 ?>
-
-<!-- <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
-    data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full"> -->
-<!-- Page wrapper  -->
-<!-- <div class="page-wrapper"> -->
-
-<?php if (isset($_SESSION['success'])) : ?>
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>Successfully!</strong> <?= $_SESSION['success']; ?>
-    <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button> -->
-</div>
-<?php endif; ?>
-
 <!-- Bread crumb and right sidebar toggle -->
 <div class="page-breadcrumb">
     <div class="row">
@@ -67,36 +30,44 @@ if (isset($_GET['del'])) {
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-lg-2 col-xlg-3">
-            <div class="card card-hover">
-                <div class="box bg-cyan text-center">
-                    <h1 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h1>
-                    <h6 class="text-white">Dashboard</h6>
+            <a href="#">
+                <div class="card card-hover">
+                    <div class="box bg-cyan text-center">
+                        <h1 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h1>
+                        <h6 class="text-white">Dashboard</h6>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-md-6 col-lg-2 col-xlg-3">
-            <div class="card card-hover">
-                <div class="box bg-success text-center">
-                    <h1 class="font-light text-white"><i class="mdi mdi-chart-areaspline"></i></h1>
-                    <h6 class="text-white">Charts</h6>
+            <a href="patients.php">
+                <div class="card card-hover">
+                    <div class="box bg-success text-center">
+                        <h1 class="font-light text-white"><i class="mdi mdi-chart-areaspline"></i></h1>
+                        <h6 class="text-white">Patients</h6>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-md-6 col-lg-2 col-xlg-3">
-            <div class="card card-hover">
-                <div class="box bg-warning text-center">
-                    <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
-                    <h6 class="text-white">Widgets</h6>
+            <a href="visitors.php">
+                <div class="card card-hover">
+                    <div class="box bg-warning text-center">
+                        <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
+                        <h6 class="text-white">Visitors</h6>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-md-6 col-lg-2 col-xlg-3">
-            <div class="card card-hover">
-                <div class="box bg-danger text-center">
-                    <h1 class="font-light text-white"><i class="mdi mdi-border-outside"></i></h1>
-                    <h6 class="text-white">Tables</h6>
+            <a href="users.php">
+                <div class="card card-hover">
+                    <div class="box bg-danger text-center">
+                        <h1 class="font-light text-white"><i class="mdi mdi-border-outside"></i></h1>
+                        <h6 class="text-white">Users</h6>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-md-6 col-lg-2 col-xlg-3">
             <div class="card card-hover">
@@ -107,18 +78,19 @@ if (isset($_GET['del'])) {
             </div>
         </div>
         <div class="col-md-6 col-lg-2 col-xlg-3">
-            <div class="card card-hover">
-                <div class="box bg-success text-center">
-                    <h1 class="font-light text-white"><i class="mdi mdi-calendar-check"></i></h1>
-                    <h6 class="text-white">Calnedar</h6>
+            <a href="visitations.php">
+                <div class="card card-hover">
+                    <div class="box bg-success text-center">
+                        <h1 class="font-light text-white"><i class="mdi mdi-calendar-check"></i></h1>
+                        <h6 class="text-white">Visitations</h6>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </div>
 <div class="container-fluid">
     <?php if($_SESSION['user']['role'] == 'Admin'){ ?>
-
     <div class="row">
         <div class="col-16">
             <div class="card">
@@ -139,11 +111,9 @@ if (isset($_GET['del'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for ($i = 1; $i < $i;) {;
-                        } ?>
-                        <?php while ($patient = $prepare->fetch(PDO::FETCH_ASSOC)) { ?>
+                        <?php $counter = 1; while ($patient = $prepare->fetch(PDO::FETCH_ASSOC)) { ?>
                         <tr>
-                            <td><?php echo $i ?></td>
+                            <td><?php echo $counter ?></td>
                             <td><?php echo $patient['fname'] . " " . $patient['mdname'] . " " . $patient['lname'] ?>
                             </td>
                             <td><?php echo $patient['gender'] ?></td>
@@ -156,8 +126,7 @@ if (isset($_GET['del'])) {
                             btn-sm"><i class="fas fa-file-alt" aria-hidden="true"></i> View</a>
                             </td>
                         </tr>
-                        <?php $i++; ?>
-                        <?php } ?>
+                        <?php $counter++; } ?>
                         <?php
                         if ($prepare->rowCount() < 1) {
                             echo "<tr><td colspan='9'><center><h2 style='color:red';>There are no patients.</h2></center></td></tr>";
@@ -188,22 +157,18 @@ if (isset($_GET['del'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for ($i = 1; $i < $i;) {;
-                        }
-                        ?>
-                        <?php while ($user = $statement->fetch(PDO::FETCH_ASSOC)) { ?>
+                        <?php $counter = 1; while ($user = $statement->fetch(PDO::FETCH_ASSOC)) { ?>
                         <tr>
-                            <th scope="row"><?php echo $i ?></th>
+                            <th scope="row"><?php echo $counter ?></th>
                             <td><?php echo $user['fname'] . " " . $user['mdname'] . " " . $user['lname'] ?></td>
                             <td><?php echo $user['username']  ?></td>
                             <td><?php echo $user['role'] ?></td>
                             <td class="text-center">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fas fa-file-alt"
-                                        aria-hidden="true"></i> View</a>
+                                <a href="viewUser.php?id=<?php echo $user['id']?>" class="btn btn-primary btn-sm"><i
+                                        class="fas fa-file-alt" aria-hidden="true"></i> View</a>
                             </td>
                         </tr>
-                        <?php $i++ ?>
-                        <?php } ?>
+                        <?php $counter++; } ?>
                     </tbody>
                 </table>
             </div>

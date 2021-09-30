@@ -8,13 +8,6 @@ if (isset($_POST['addUser'])) {
     $username = $_POST['username'];
     $role = $_POST['role'];
     $password = $_POST['password'];
-    // $email = $_POST['email'];
-    //  $poaddress = $_POST['poaddress'];
-    // $address = $_POST['address'];
-    // $region = $_POST['region'];
-    // $city = $_POST['city'];
-    // $about = $_POST['about'];
-    // $pnumber = $_POST['pnumber'];
 
     $check = $db->prepare("SELECT `username` FROM `users` WHERE `username` =? ");
     $check->execute(array($username));
@@ -37,7 +30,7 @@ if (isset($_POST['addUser'])) {
             //     </div>";
     }
 } else {
-// echo 'fild can\'t be empty';
+// echo 'field can\'t be empty';
 }
 
 ?>

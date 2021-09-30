@@ -4,13 +4,12 @@ if (isset($_GET['id'])) {
     $statement = $db->prepare("SELECT * FROM `patients` WHERE `pid`=?");
     $statement->execute(array($_GET['id']));
     $patient = $statement->fetch(PDO::FETCH_ASSOC);
-    if($statement->rowCount() < 0){
+    if ($statement->rowCount() < 0) {
         echo "User not found";
     }
-}else{
+} else {
     header('location: ./');
 }
-
 
 $prepare = $db->prepare("SELECT * FROM `visitors`");
 $prepare->execute();
@@ -35,32 +34,31 @@ $prepare->execute();
     <div class="row">
         <div class="col-md-9">
             <div class="card card-body printableArea">
-                <h3><b>PATIENT</b> <span class="pull-right"><?php echo $patient['pid']; ?></span></h3>
+                <h3>
+                    <b>PATIENT ID Number: </b> <span
+                        class="pull-right text-danger"><?php echo $patient['pid']; ?></span>
+                </h3>
                 <hr>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="pull-left">
-                            <address>
-                                <p class="text-muted ms-1">E 104, Dharti-2,
-                                    <br /> Nr' Viswakarma Temple,
-                                    <br /> Talaja Road,
-                                    <br /> Bhavnagar - 364002
+                            <h4 class=>Full Name: <b><?php echo $patient['fname'] . " " . $patient['lname']?></b>
+                                <br /><?php echo $patient['fname']?>
+                                <br /><?php echo $patient['fname']?>
+                                <br /><?php echo $patient['fname']?>
                                 </p>
-                            </address>
                         </div>
                         <div class="pull-right text-end">
-                            <address>
-                                <h3>To,</h3>
-                                <h4 class="font-bold">Gaala & Sons,</h4>
-                                <p class="text-muted ms-4">E 104, Dharti-2,
-                                    <br /> Nr' Viswakarma Temple,
-                                    <br /> Talaja Road,
-                                    <br /> Bhavnagar - 364002
-                                </p>
-                                <p class="mt-4"><b>Invoice Date :</b> <i class="fa fa-calendar"></i> 23rd
-                                    Jan 2018</p>
-                                <p><b>Due Date :</b> <i class="fa fa-calendar"></i> 25th Jan 2018</p>
-                            </address>
+                            <h3>To,</h3>
+                            <h4 class="font-bold">Gaala & Sons,</h4>
+                            <p class="text-muted ms-4">E 104, Dharti-2,
+                                <br /> Nr' Viswakarma Temple,
+                                <br /> Talaja Road,
+                                <br /> Bhavnagar - 364002
+                            </p>
+                            <p class="mt-4"><b>Invoice Date :</b> <i class="fa fa-calendar"></i> 23rd
+                                Jan 2018</p>
+                            <p><b>Due Date :</b> <i class="fa fa-calendar"></i> 25th Jan 2018</p>
                         </div>
                     </div>
 
@@ -84,7 +82,8 @@ $prepare->execute();
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $counter = 1; while ($visitor = $prepare->fetch(PDO::FETCH_ASSOC)) { ?>
+                                    <?php $counter = 1;
+                                    while ($visitor = $prepare->fetch(PDO::FETCH_ASSOC)) { ?>
                                     <tr>
                                         <td class="text-center"><?php echo $counter ?></td>
                                         <td><?php echo $visitor['fname'] . " " . $visitor['mdname'] ?></td>
@@ -93,7 +92,8 @@ $prepare->execute();
                                         <td><?php echo $visitor['tin'] ?></td>
                                         <td><?php echo $visitor['tout'] ?></td>
                                     </tr>
-                                    <?php $counter++; } ?>
+                                    <?php $counter++;
+                                    } ?>
                                 </tbody>
                             </table>
                         </div>

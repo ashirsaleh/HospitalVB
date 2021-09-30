@@ -13,7 +13,7 @@ if (isset($_POST['updateProfile'])) {
     $password = password_hash($password, PASSWORD_DEFAULT);
     $updateProfile = $db->prepare('UPDATE `users` SET `pnumber` = ?, `email` = ?, `poaddress` = ?, `address` = ?, `region` = ?, `city` = ?, `about` = ? WHERE id = ?');
     if ($updateProfile->execute(array($pnumber, $email, $poaddress, $address, $region, $city, $about, $_SESSION['user']['id']))) {
-        echo 'passes';
+        echo '';
     }
 }
 ?>
@@ -156,17 +156,35 @@ if (isset($_POST['updateProfile'])) {
                         <h6 class="card-category text-gray">
                             <?php echo $_SESSION['user']['role'] ?>
                         </h6>
+                        <h4 class="card-title">
+                            <?php echo $_SESSION['user']['fname'] . " " . $_SESSION['user']['mdname'] . " " . $_SESSION['user']['lname'] ?>
+                        </h4>
                         <h5 class="card-title">
                             <?php echo $_SESSION['user']['email'] ?>
                         </h5>
-
-                        <h4 class="card-title">
-                            <?php echo $_SESSION['user']['fname'] . " " . $_SESSION['user']['lname'] ?>
-                        </h4>
+                        <h5 class="card-title">
+                            <?php echo $_SESSION['user']['pnumber'] ?>
+                        </h5>
+                        <h5 class="card-title">P.O Box
+                            <?php echo $_SESSION['user']['poaddress'] ?>
+                        </h5>
+                        <h5 class="card-title">
+                            <?php echo $_SESSION['user']['address']. ", " . $_SESSION['user']['region'] ?>
+                        </h5>
+                        <!-- <p class="card-title"> -->
+                        <?php //echo $_SESSION['user']['about'] ?>
+                        <!-- </p> -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+    $(function() {
+                // Success Type
+                $('#ts-success').on('click', function() {
+                    toastr.success('Have fun storming the castle!', 'Miracle Max Says');
+                });
+    </script>
 
     <?php require('includes/footer.php'); ?>

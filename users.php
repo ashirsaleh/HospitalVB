@@ -8,8 +8,8 @@ $statement->execute();
 if (isset($_GET['del'])) {
     $del = $db->prepare("DELETE FROM `users` WHERE `id` =?");
     if ($del->execute(array($_GET['del']))) {
-        $_SESSION['success'] = "User has been deleted";
-        // header('Location: users.php');
+        // $_SESSION['success'] = "User has been deleted";
+        // header('Location: ./');
     } else {
         // echo 'nooo1';
     }
@@ -57,20 +57,15 @@ if (isset($_GET['del'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for ($i = 1; $i < $i;) {;
-                        }
-                        ?>
-                        <?php while ($user = $statement->fetch(PDO::FETCH_ASSOC)) { ?>
+                        <?php $counter = 1; while ($user = $statement->fetch(PDO::FETCH_ASSOC)) { ?>
                         <tr>
-                            <?php //$_SESSION('success') 
-                                ?>
-                            <th scope="row"><?php echo $i ?></th>
+                            <th scope="row"><?php echo $counter ?></th>
                             <td><?php echo $user['fname'] . " " . $user['mdname']. " " . $user['lname'] ?></td>
                             <td><?php echo $user['username']  ?></td>
                             <td><?php echo $user['role'] ?></td>
                             <td class="text-center">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fas fa-file-alt"
-                                        aria-hidden="true"></i>
+                                <a href="viewUser.php?id=<?php echo $user['id']?>" class="btn btn-primary btn-sm"><i
+                                        class="fas fa-file-alt" aria-hidden="true"></i>
                                     View</a>
                                 <a type="button" class="btn btn-warning btn-sm" data-toggle="modal"
                                     data-target="#edit-modal"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a>
@@ -78,8 +73,7 @@ if (isset($_GET['del'])) {
                                         class="fa fa-trash" aria-hidden="true"></i> Delete</a>
                             </td>
                         </tr>
-                        <?php $i++ ?>
-                        <?php } ?>
+                        <?php $counter++; } ?>
                     </tbody>
                 </table>
             </div>

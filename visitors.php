@@ -77,7 +77,7 @@ if (isset($_GET['view'])) {
                             <td><?php echo $visitor['tin'] ?></td>
                             <td><?php echo $visitor['tout'] ?></td>
                             <td class="text-center">
-                                <a href="#viewModal?view=<?php echo $visitor['id']?>" class="btn btn-sm btn-primary"
+                                <a href="viewVisitor.php?id=<?php echo $visitor['id']?>" class="btn btn-sm btn-primary"
                                     data-bs-toggle="modal">
                                     <i class="fas fa-file-alt" aria-hidden="true"></i> View</a>
                                 <a type="button" class="btn btn-warning btn-sm" data-toggle="modal"
@@ -97,9 +97,6 @@ if (isset($_GET['view'])) {
         </div>
     </div>
 </div>
-<?php
-if ($view->execute(array($_GET['view']))){
-        ?>
 <div id="viewModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -119,6 +116,5 @@ if ($view->execute(array($_GET['view']))){
         </div>
     </div>
 </div>
-<?php } ?>
 
 <?php require 'includes/footer.php' ?>
