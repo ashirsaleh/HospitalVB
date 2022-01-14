@@ -1,27 +1,9 @@
-<?php require 'includes/header.php'?>
-<?php if($_SESSION['user']['role'] == 'Admin'){ ?>
+<?php require 'includes/header.php' ?>
+<?php if ($_SESSION['user']['role'] == 'Admin') { ?>
 <?php
 
-$statement = $db->prepare('SELECT * FROM `visitors`');
-$statement->execute();
-
-if (isset($_GET['del'])) {
-    $del = $db->prepare("DELETE FROM `visitors` WHERE `id` =?");
-    if ($del->execute(array($_GET['del']))) {
-        $_SESSION['success'] = "Visitor has been deleted";
-        //    echo 'weeee';
-        // header('Location: users.php');
-    } else {
-        // echo 'nooo1';
-    }
-} else {
-    // echo 'Noooooo';
-}}
-if (isset($_GET['view'])) {
-    $view = $db->prepare("SELECT * FROM `visitors` WHERE `id` =?");
-    
-}else{
-    echo 'nooo';
+    $statement = $db->prepare('SELECT * FROM `patients` JOIN `visitors` ON visitors.p_id = patients.patient_id');
+    $statement->execute(array());
 }
 
 ?>
@@ -41,11 +23,11 @@ if (isset($_GET['view'])) {
         </div>
     </div>
 </div>
-<?php if (isset($_SESSION['success'])): ?>
+<?php if (isset($_SESSION['success'])) : ?>
 <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>Successfully!</strong> <?=$_SESSION['success'];?>
+    <strong>Successfully!</strong> <?= $_SESSION['success']; ?>
 </div>
-<?php endif;?>
+<?php endif; ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -58,26 +40,27 @@ if (isset($_GET['view'])) {
                         <tr>
                             <th class="text-center">#</th>
                             <th>Full Name</th>
-                            <th>Visit Day</th>
-                            <th>Purpose</th>
-                            <th>Time In</th>
-                            <th>Time Out</th>
+                            <!-- <th>Visit Day</th> -->
+                            <th>To</th>
+                            <th>ID Type and ID Number</th>
+                            <th>Relationship to Patient</th>
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                         $counter = 1;
-                         while ($visitor = $statement->fetch(PDO::FETCH_ASSOC)) { ?>
+                        $counter = 1;
+                        while ($visitor = $statement->fetch(PDO::FETCH_ASSOC)) { ?>
                         <tr>
                             <td class="text-center"><?php echo $counter ?></td>
-                            <td><?php echo $visitor['fname'] . " " . $visitor['mdname'] ?></td>
-                            <td><?php echo $visitor['date'] ?></td>
-                            <td><?php echo $visitor['purpose'] ?></td>
-                            <td><?php echo $visitor['tin'] ?></td>
-                            <td><?php echo $visitor['tout'] ?></td>
+                            <td><?php echo $visitor['visitor_fname'] . " " . $visitor['visitor_mdname'] ?></td>
+                            <!-- <td><?php echo $visitor['visitor_date'] ?></td> -->
+                            <td><?php echo $visitor['patient_fname'] . " " .  $visitor['patient_lname'] ?>
+                            </td>
+                            <td><?php echo $visitor['visitor_id_type'] .  " : " . $visitor['visitor_id_number'] ?></td>
+                            <td><?php echo $visitor['visitor_relationship'] ?></td>
                             <td class="text-center">
-                                <a href="viewVisitor.php?id=<?php echo $visitor['id']?>" class="btn btn-sm btn-primary"
+                                <a href="viewVisitor.php?id=<?php echo $visitor['id'] ?>" class="btn btn-sm btn-primary"
                                     data-bs-toggle="modal">
                                     <i class="fas fa-file-alt" aria-hidden="true"></i> View</a>
                                 <a type="button" class="btn btn-warning btn-sm" data-toggle="modal"
@@ -87,7 +70,8 @@ if (isset($_GET['view'])) {
                                     <i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
                             </td>
                         </tr>
-                        <?php $counter++; } ?>
+                        <?php $counter++;
+                        } ?>
                         <?php if ($statement->rowCount() < 1) {
                             echo "<tr><td colspan='9'><center><h2 style='color:red';>There are no Visitor.";
                         } ?>

@@ -1,7 +1,7 @@
 <?php require 'includes/header.php' ?>
 <?php
 if (isset($_GET['id'])) {
-    $statement = $db->prepare("SELECT * FROM `patients` WHERE `pid`=?");
+    $statement = $db->prepare("SELECT * FROM `patients` JOIN `visitors` ON patients.patient_id = visitors.p_id  WHERE patients.patient_id=?");
     $statement->execute(array($_GET['id']));
     $patient = $statement->fetch(PDO::FETCH_ASSOC);
     if ($statement->rowCount() < 0) {
@@ -11,10 +11,9 @@ if (isset($_GET['id'])) {
     header('location: ./');
 }
 
-$prepare = $db->prepare("SELECT * FROM `visitors`");
-$prepare->execute();
 
-?> <div class="page-breadcrumb">
+?>
+<div class="page-breadcrumb">
     <div class="row">
         <div class="col-12 d-flex no-block align-items-center">
             <h4 class="page-title">View Patient</h4>
@@ -36,16 +35,17 @@ $prepare->execute();
             <div class="card card-body printableArea">
                 <h3>
                     <b>PATIENT ID Number: </b> <span
-                        class="pull-right text-danger"><?php echo $patient['pid']; ?></span>
+                        class="pull-right text-danger"><?php echo $patient['patient_fname']; ?></span>
                 </h3>
                 <hr>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="pull-left">
-                            <h4 class=>Full Name: <b><?php echo $patient['fname'] . " " . $patient['lname']?></b>
-                                <br /><?php echo $patient['fname']?>
-                                <br /><?php echo $patient['fname']?>
-                                <br /><?php echo $patient['fname']?>
+                            <h4 class=>Full Name:
+                                <b><?php echo $patient['patient_fname'] . " " . $patient['patient_lname'] ?></b>
+                                <br /><?php echo $patient['patient_fname'] ?>
+                                <br /><?php echo $patient['patient_fname'] ?>
+                                <br /><?php echo $patient['patient_fname'] ?>
                                 </p>
                         </div>
                         <div class="pull-right text-end">
@@ -67,7 +67,7 @@ $prepare->execute();
                             <div class="p-2">
                                 <h4 class="card-title mb-0">
                                     <span
-                                        class="text-danger"><?php echo $patient['fname'] . " " . $patient['lname'] ?></span>
+                                        class="text-danger"><?php echo $patient['patient_fname'] . " " . $patient['patient_lname'] ?></span>
                                     Visitors</h5>
                             </div>
                             <table class="table table-hover table-bordered">
@@ -76,24 +76,31 @@ $prepare->execute();
                                         <th class="text-center">#</th>
                                         <th>Full Name</th>
                                         <th class="text-start">Visit Day</th>
-                                        <th class="text-start">Purpose</th>
                                         <th class="text-start">Time In</th>
                                         <th class="text-start">Time Out</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $counter = 1;
-                                    while ($visitor = $prepare->fetch(PDO::FETCH_ASSOC)) { ?>
+                                    <?php
+                                    $counter = 1;
+                                    $statement = $db->prepare("SELECT * FROM `patients` JOIN `visitors` ON patients.patient_id = visitors.p_id  WHERE patients.patient_id=?");
+                                    $statement->execute(array($_GET['id']));
+                                    while ($visitor = $statement->fetch(PDO::FETCH_ASSOC)) {
+
+
+                                    ?>
                                     <tr>
                                         <td class="text-center"><?php echo $counter ?></td>
-                                        <td><?php echo $visitor['fname'] . " " . $visitor['mdname'] ?></td>
-                                        <td><?php echo $visitor['date'] ?></td>
-                                        <td><?php echo $visitor['purpose'] ?></td>
-                                        <td><?php echo $visitor['tin'] ?></td>
-                                        <td><?php echo $visitor['tout'] ?></td>
+                                        <td><?php echo $visitor['visitor_fname'] . " " . $visitor['visitor_mdname'] ?>
+                                        </td>
+                                        <!-- <td><?php echo $patient[''] ?></td> -->
+                                        <!-- <td><?php echo $patient[''] ?></td> -->
+                                        <!-- <td><?php echo $patient[''] ?></td> -->
                                     </tr>
-                                    <?php $counter++;
-                                    } ?>
+                                    <?php
+                                        $counter++;
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>

@@ -1,23 +1,21 @@
 <?php require 'includes/header.php'; ?>
-<?php if($_SESSION['user']['role'] == 'Admin'){ ?>
+<?php if ($_SESSION['user']['role'] == 'Admin') { ?>
 <?php
 
-$statement = $db->prepare('SELECT * FROM `users`');
-$statement->execute();
+    $statement = $db->prepare('SELECT * FROM `users`');
+    $statement->execute();
 
-if (isset($_GET['del'])) {
-    $del = $db->prepare("DELETE FROM `users` WHERE `id` =?");
-    if ($del->execute(array($_GET['del']))) {
-        // $_SESSION['success'] = "User has been deleted";
-        // header('Location: ./');
-    } else {
-        // echo 'nooo1';
+    if (isset($_GET['del'])) {
+        $del = $db->prepare("DELETE FROM `users` WHERE `id` =?");
+        if ($del->execute(array($_GET['del']))) {
+            header('Location: users.php');
+            $_SESSION['success'] = "User has been deleted";
+        } else {
+            $_SESSION['error'] = "User could not be deleted";
+        }
     }
-} else {
-    // echo 'Noooooo';
-}
 
-?>
+    ?>
 
 <div class="page-breadcrumb">
     <div class="row">
@@ -34,11 +32,11 @@ if (isset($_GET['del'])) {
         </div>
     </div>
 </div>
-<?php if (isset($_SESSION['success'])): ?>
+<?php if (isset($_SESSION['success'])) : ?>
 <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>Successfully!</strong> <?=$_SESSION['success'];?>
+    <strong>Successfully!</strong> <?= $_SESSION['success']; ?>
 </div>
-<?php endif;?>
+<?php endif; ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -57,14 +55,15 @@ if (isset($_GET['del'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $counter = 1; while ($user = $statement->fetch(PDO::FETCH_ASSOC)) { ?>
+                        <?php $counter = 1;
+                            while ($user = $statement->fetch(PDO::FETCH_ASSOC)) { ?>
                         <tr>
                             <th scope="row"><?php echo $counter ?></th>
-                            <td><?php echo $user['fname'] . " " . $user['mdname']. " " . $user['lname'] ?></td>
+                            <td><?php echo $user['fname'] . " " . $user['mdname'] . " " . $user['lname'] ?></td>
                             <td><?php echo $user['username']  ?></td>
                             <td><?php echo $user['role'] ?></td>
                             <td class="text-center">
-                                <a href="viewUser.php?id=<?php echo $user['id']?>" class="btn btn-primary btn-sm"><i
+                                <a href="viewUser.php?id=<?php echo $user['id'] ?>" class="btn btn-primary btn-sm"><i
                                         class="fas fa-file-alt" aria-hidden="true"></i>
                                     View</a>
                                 <a type="button" class="btn btn-warning btn-sm" data-toggle="modal"
@@ -73,7 +72,8 @@ if (isset($_GET['del'])) {
                                         class="fa fa-trash" aria-hidden="true"></i> Delete</a>
                             </td>
                         </tr>
-                        <?php $counter++; } ?>
+                        <?php $counter++;
+                            } ?>
                     </tbody>
                 </table>
             </div>

@@ -4,14 +4,14 @@ if (isset($_GET['id'])) {
     $statement = $db->prepare("SELECT * FROM `visitors` WHERE `id`=?");
     $statement->execute(array($_GET['id']));
     $visitor = $statement->fetch(PDO::FETCH_ASSOC);
-    if($statement->rowCount() < 0){
+    if ($statement->rowCount() < 0) {
         echo "User not found";
     }
-}else{
+} else {
     header('location: ./');
 }
 
-?> 
+?>
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-12 d-flex no-block align-items-center">
@@ -32,7 +32,7 @@ if (isset($_GET['id'])) {
     <div class="row">
         <div class="col-md-9">
             <div class="card card-body printableArea">
-                <h3><b>UserName: </b> <span class="pull-right"><?php echo $visitor['fname']; ?></span></h3>
+                <h3><b>UserName: </b> <span class="pull-right"><?php echo $visitor['visitor_fname']; ?></span></h3>
                 <hr>
                 <div class="row">
                     <div class="col-md-12">

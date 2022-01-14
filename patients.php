@@ -1,23 +1,21 @@
-<?php require ('includes/header.php'); ?>
-<?php if($_SESSION['user']['role'] == 'Admin'){ ?>
+<?php require('includes/header.php'); ?>
+<?php if ($_SESSION['user']['role'] == 'Admin') { ?>
 
 <?php
-$prepare = $db->prepare("SELECT * FROM `patients`");
-$prepare->execute();
+    $prepare = $db->prepare("SELECT * FROM `patients`");
+    $prepare->execute();
 
-if (isset($_GET['del'])) {
-    $del = $db->prepare("DELETE FROM `patients` WHERE `id` =?");
-    if ($del->execute(array($_GET['del']))) {
-        // $_SESSION['success'] = "Patient has been deleted";
-        // header('Location: patients.php');
-    } else {
-        // echo 'nooo1';
+    if (isset($_GET['del'])) {
+        $del = $db->prepare("DELETE FROM `patients` WHERE `patient_id` =?");
+        if ($del->execute(array($_GET['del']))) {
+            header('Location: patients.php');
+            $_SESSION['success'] = "Patient has been deleted";
+        } else {
+            $_SESSION['error'] = "Patient could not be deleted";
+        }
     }
-} else {
-    // echo 'Noooooo';
-}
 
-?>
+    ?>
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-12 d-flex no-block align-items-center">
@@ -33,11 +31,13 @@ if (isset($_GET['del'])) {
         </div>
     </div>
 </div>
-<?php if (isset($_SESSION['success'])): ?>
+<?php if (isset($_SESSION['success'])) : ?>
 <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>Successfully!</strong> <?=$_SESSION['success'];?>
+    <strong>Successfully!</strong> <?= $_SESSION['success']; ?>
 </div>
-<?php endif;?>
+<?php endif;
+    unset($_SESSION['success']);
+    ?>
 <div class=" container-fluid">
     <div class="card">
         <div class="card-body">
@@ -55,31 +55,36 @@ if (isset($_GET['del'])) {
                     <tbody>
                         <?php while ($patient = $prepare->fetch(PDO::FETCH_ASSOC)) { ?>
                         <tr>
-                            <td><?php echo $patient['fname'] . " " . $patient['mdname'] . " " . $patient['lname']?>
+                            <td><?php echo $patient['patient_fname'] . " " . $patient['patient_mdname'] . " " . $patient['patient_lname'] ?>
                             </td>
-                            <td><?php echo $patient['pid'] ?></td>
-                            <td><?php echo $patient['block'] ?></td>
-                            <td><?php echo $patient['block'] ?></td>
+                            <td><?php echo $patient['patient_id'] ?></td>
+                            <td><?php echo $patient['patient_block'] ?></td>
+                            <td><?php echo $patient['patient_block'] ?></td>
                             <td class="text-center">
-                                <a href="viewPatient.php?id=<?php echo $patient['pid']?>"
+                                <a href="viewPatient.php?id=<?php echo $patient['patient_id'] ?>"
                                     class="btn btn-primary btn-sm"><i class="fas fa-file-alt" aria-hidden="true"></i>
                                     View</a>
-                                <a href="#addVisitorModal" data-bs-toggle="modal" class="btn btn-warning btn-sm mx-1"><i
-                                        class="fa fa-user-plus" aria-hidden="true"></i>
+                                <a href="addVisitor.php?id=<?php echo $patient['patient_id'] ?>"
+                                    class="btn btn-warning btn-sm mx-1"><i class="fa fa-user-plus"
+                                        aria-hidden="true"></i>
                                     Add Visitor</a>
-                                <a href="patients.php?del=<?php echo $patient['id'] ?>" class="btn btn-danger btn-sm"><i
-                                        class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                                <a href="patients.php?del=<?php echo $patient['patient_id'] ?>"
+                                    class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i>
+                                    Delete</a>
                             </td>
                         </tr>
                         <?php } ?>
-                        <?php 
+                        <?php
                             if ($prepare->rowCount() < 1) {
                                 echo "<tr><td colspan='9'><center><h2 style='color:red';>There are no patients.</h2></center></td></tr>";
                             }
-                        ?>
+                            ?>
                     </tbody>
                 </table>
             </div>
+
+
+
             <div id="addVisitorModal" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -161,11 +166,14 @@ if (isset($_GET['del'])) {
 
 
 
+<?php
+unset($_SESSION['error']);
+
+?>
 
 
 
 
 
 
-
-<?php require ('includes/footer.php'); ?>
+<?php require('includes/footer.php'); ?>

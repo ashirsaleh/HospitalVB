@@ -9,18 +9,16 @@ if(isset($_POST['login'])){
      $username = $_POST['username'];
      $password = $_POST['password'];
 
-     $sql = "SELECT * FROM `users` WHERE `username` =?";
-
-     $statement = $db->prepare($sql);
+     $statement = $db->prepare("SELECT * FROM `users` WHERE `username` =?");
      $statement->execute(array($username));
      $result = $statement->fetch(PDO::FETCH_ASSOC);
+     
      if ($statement->rowCount() > 0) {
         if (password_verify($password, $result['password'])) {
             $_SESSION['user'] = $result;
             $_SESSION['loggedIn'] = true;
             $_SESSION['role'] = $result['role'];
             header('Location: ./');
-            // $_SESSION['success'] = 'LoggedIn Successfully';
             
         }
         $_SESSION['error'] = 'paswodi didi noti machi';
@@ -58,9 +56,9 @@ if(isset($_POST['login'])){
                 <?php if (isset($_SESSION['error'])) : ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Error!</strong> <?= $_SESSION['error']; ?>
-                    <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button> -->
+                    </button>
                 </div>
                 <?php endif; ?>
                 <form class="form-horizontal mt-3" id="loginform" method="POST" action="login.php">

@@ -1,30 +1,30 @@
 <?php require('includes/header.php'); ?>
 <?php
 if (isset($_POST['addPatient'])) {
-    $fname = $_POST['fname'];
-    $mdname = $_POST['mdname'];
-    $lname = $_POST['lname'];
-    $gender = $_POST['gender'];
-    $age = $_POST['age'];
-    // $date = $_POST['date'];
-    $pid = $_POST['pid'];
-    $block = $_POST['block'];
-    $address = $_POST['address'];
-    $ward = $_POST['ward'];
+    $patient_fname = $_POST['patient_fname'];
+    $patient_mdname = $_POST['patient_mdname'];
+    $patient_lname = $_POST['patient_lname'];
+    $patient_gender = $_POST['patient_gender'];
+    $patient_age = $_POST['patient_age'];
+    // $date = date_format() $_POST['date'];
+    $patient_id = $_POST['patient_id'];
+    $patient_block = $_POST['patient_block'];
+    $patient_address = $_POST['patient_address'];
+    $patient_ward = $_POST['patient_ward'];
 
-    $check = $db->prepare("SELECT `pid` FROM `patients` WHERE `pid` =?");
-    $check->execute(array($pid));
+    $check = $db->prepare("SELECT `patient_id` FROM `patients` WHERE `patient_id` =?");
+    $check->execute(array($patient_id));
     $check->fetch(PDO::FETCH_ASSOC);
     if ($check->rowCount() < 1) {
-        $addPatient = $db->prepare("INSERT INTO `patients` (`fname`, `mdname`, `lname`, `gender`, `age`, `pid`, `block`, `address`, `ward`) VALUE (?,?,?,?,?,?,?,?,?)");
-        if ($addPatient->execute(array($fname, $mdname, $lname, $gender, $age, $pid, $block, $address, $ward))) {
+        $addPatient = $db->prepare("INSERT INTO `patients` (`patient_fname`, `patient_mdname`, `patient_lname`, `patient_gender`, `patient_age`, `patient_id`, `patient_block`, `patient_address`, `patient_ward`) VALUE (?,?,?,?,?,?,?,?,?)");
+        if ($addPatient->execute(array($patient_fname, $patient_mdname, $patient_lname, $patient_gender, $patient_age, $patient_id, $patient_block, $patient_address, $patient_ward))) {
             $_SESSION['success'] = "Patient has been added";
-            // header('Location: patients.php');
-        }else{
+            header('Location: patients.php');
+        } else {
             $_SESSION['error'] = "Patient Could not be added.";
         }
     } else {
-         $_SESSION['error'] = "Patient ID Found in records, Could not be added";
+        $_SESSION['error'] = "Patient ID Found in records, Could not be added";
         //  echo 'available';
     }
 }
@@ -46,7 +46,7 @@ if (isset($_POST['addPatient'])) {
         </div>
     </div>
 </div>
-<?php if(isset($_SESSION['error'])){ ?>
+<?php if (isset($_SESSION['error'])) { ?>
 <!-- <div class="alert alert-danger alert-dismissible fade show" role="alert">
     <strong>Failed!</strong> <?= $_SESSION['error']; ?>
 </div>   -->
@@ -75,25 +75,27 @@ if (isset($_POST['addPatient'])) {
                                     <div class="col-md-4 ">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">First Name</label>
-                                            <input type="text" name="fname" class="form-control" required="true">
+                                            <input type="text" name="patient_fname" class="form-control"
+                                                required="true">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Midle Name</label>
-                                            <input type="text" name="mdname" class="form-control">
+                                            <input type="text" name="patient_mdname" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Last Name</label>
-                                            <input type="text" name="lname" class="form-control" required="true">
+                                            <input type="text" name="patient_lname" class="form-control"
+                                                required="true">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Gender</label>
-                                            <select class="form-control" name="gender" id="">
+                                            <select class="form-control" name="patient_gender" id="">
                                                 <option value="male">Male</option>
                                                 <option value="female">Female</option>
                                             </select>
@@ -103,7 +105,7 @@ if (isset($_POST['addPatient'])) {
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Age</label>
-                                            <input type="number" name="age" class="form-control" required="">
+                                            <input type="number" name="patient_age" class="form-control" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -117,13 +119,13 @@ if (isset($_POST['addPatient'])) {
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Patient ID</label>
-                                                <input type="text" name="pid" class="form-control">
+                                                <input type="text" name="patient_pid" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Block</label>
-                                                <select class="form-control" name="block" id="">
+                                                <select class="form-control" name="patient_block" id="">
                                                     <option value="A001">A001</option>
                                                     <option value="A002">A002</option>
                                                     <option value="A003">A003</option>
@@ -134,7 +136,7 @@ if (isset($_POST['addPatient'])) {
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Ward Number</label>
-                                                <select class="form-control" name="ward" id="">
+                                                <select class="form-control" name="patient_ward" id="">
                                                     <option value="011">011</option>
                                                     <option value="022">022</option>
                                                     <option value="033">033</option>
@@ -147,7 +149,7 @@ if (isset($_POST['addPatient'])) {
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Adress</label>
-                                                <input type="text" name="address" class="form-control">
+                                                <input type="text" name="patient_address" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -155,19 +157,19 @@ if (isset($_POST['addPatient'])) {
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">City</label>
-                                                <input type="text" name="city" class="form-control">
+                                                <input type="text" name="patient_city" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Country</label>
-                                                <input type="text" name="country" class="form-control">
+                                                <input type="text" name="patient_country" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Postal Code</label>
-                                                <input type="text" name="pcode " class="form-control">
+                                                <input type="text" name="patient_pcode " class="form-control">
                                             </div>
                                         </div>
                                     </div>

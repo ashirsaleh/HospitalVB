@@ -1,14 +1,14 @@
-<?php 
+<?php
 session_start();
+ob_start();
 require 'includes/db.php';
 if (!isset($_SESSION['user'])) {
     header('Location: login.php');
     exit();
 }
-if (!isset($_SESSION['loggedIn'])){
+if (!isset($_SESSION['loggedIn'])) {
     header('Location: login.php');
     exit();
-    
 }
 ?>
 <!-- <!DOCTYPE html> -->
@@ -17,7 +17,7 @@ if (!isset($_SESSION['loggedIn'])){
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Visitors Book</title>
+    <title><?php echo 'Visitors Book' ?></title>
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
     <link rel="stylesheet" href="assets/libs/flot/css/float-chart.css">
     <link rel="stylesheet" href="assets/dist/css/icons/font-awesome/css/fontawesome.css">
@@ -62,7 +62,7 @@ if (!isset($_SESSION['loggedIn'])){
                                 data-sidebartype="mini-sidebar"><i class="mdi mdi-menu font-24"></i></a></li>
 
                         <!-- create new -->
-                        <?php if($_SESSION['user']['role'] == 'Admin' || $_SESSION['user']['role'] == 'Nurse'){ ?>
+                        <?php if ($_SESSION['user']['role'] == 'Admin' || $_SESSION['user']['role'] == 'Nurse') { ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -70,10 +70,10 @@ if (!isset($_SESSION['loggedIn'])){
                                 <span class="d-block d-md-none"><i class="fa fa-plus"></i></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <?php if($_SESSION['user']['role'] != 'Nurse'){ ?>
+                                <?php if ($_SESSION['user']['role'] == 'Admin') { ?>
                                 <li><a class="dropdown-item" href="addPatient.php">Patient</a></li>
                                 <?php } ?>
-                                <?php if($_SESSION['user']['role'] == 'Admin'){  ?>
+                                <?php if ($_SESSION['user']['role'] == 'Admin') {  ?>
                                 <li><a class="dropdown-item" href="addUser.php">User</a></li>
                                 <?php } ?>
                             </ul>
@@ -123,17 +123,17 @@ if (!isset($_SESSION['loggedIn'])){
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="index.php" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span
                                     class="hide-menu">Dashboard</span></a></li>
-                        <?php if($_SESSION['user']['role'] == 'Admin'){ ?>
+                        <?php if ($_SESSION['user']['role'] == 'Admin') { ?>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="patients.php" aria-expanded="false"><i class="mdi mdi-chart-bar"></i><span
                                     class="hide-menu">Patients</span></a></li>
                         <?php } ?>
-                        <?php if($_SESSION['user']['role'] == 'Admin'){ ?>
+                        <?php if ($_SESSION['user']['role'] == 'Admin') { ?>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="users.php" aria-expanded="false"><i class="mdi mdi-pencil"></i><span
                                     class="hide-menu">Users</span></a></li>
                         <?php } ?>
-                        <?php if($_SESSION['user']['role'] == 'Admin'){ ?>
+                        <?php if ($_SESSION['user']['role'] == 'Admin') { ?>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="visitations.php" aria-expanded="false"><i class="mdi mdi-calendar-text"></i><span
                                     class="hide-menu">Visitations</span></a></li>

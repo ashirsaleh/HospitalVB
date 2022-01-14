@@ -9,10 +9,11 @@ if (isset($_POST['updateProfile'])) {
     $region = $_POST['region'];
     $city = $_POST['city'];
     $about = $_POST['about'];
+    $picture = $_POST['picture'];
 
     $password = password_hash($password, PASSWORD_DEFAULT);
-    $updateProfile = $db->prepare('UPDATE `users` SET `pnumber` = ?, `email` = ?, `poaddress` = ?, `address` = ?, `region` = ?, `city` = ?, `about` = ? WHERE id = ?');
-    if ($updateProfile->execute(array($pnumber, $email, $poaddress, $address, $region, $city, $about, $_SESSION['user']['id']))) {
+    $updateProfile = $db->prepare('UPDATE `users` SET `pnumber` = ?, `email` = ?, `poaddress` = ?, `address` = ?, `region` = ?, `city` = ?, `about` = ?, `picture` = ? WHERE id = ?');
+    if ($updateProfile->execute(array($pnumber, $email, $poaddress, $address, $region, $city, $about, $picture, $_SESSION['user']['id']))) {
         echo '';
     }
 }
@@ -136,9 +137,20 @@ if (isset($_POST['updateProfile'])) {
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>About Me</label>
+                                        <div class="form-group">
+                                            <input type="file" name="picture" src="/images/" alt="Profile Picture">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <button type="submit" name="updateProfile" class="btn btn-primary pull-right">Update
                                 Profile</button>
                             <div class="clearfix"></div>
+
                         </form>
                     </div>
                 </div>
@@ -146,9 +158,9 @@ if (isset($_POST['updateProfile'])) {
             <div class="col-md-4">
                 <div class="card card-profile">
                     <div class="card-avatar d-flex justify-content-center mt-2">
-                        <a href="javascript:;">
-                            <img class="img" style="width: 120px; height: 120; border-radius: 50%;"
-                                src="assets/images/users/7.jpg" />
+                        <a href="javascript:;"> <?php echo"
+                            <img class='img' style='width: 120px; height: 120; border-radius: 50%;' src='/pictures ' /> 
+                            " ?>
                         </a>
                     </div>
 

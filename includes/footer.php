@@ -44,3 +44,9 @@ $('#zero_config').DataTable();
 </script>
 
 </html>
+<?php
+unset($_SESSION['error']);
+unset($_SESSION['success']);
+?>
+
+<?php ob_end_flush(); ?>

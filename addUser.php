@@ -17,33 +17,33 @@ if (isset($_POST['addUser'])) {
         $sql = "INSERT INTO `users` (`fname`,`mdname`, `lname`, `username`, `role`, `password`) VALUE  (?,?,?,?,?,?)";
         $addUser = $db->prepare($sql);
         if ($addUser->execute(array($fname, $mdname, $lname, $username, $role, $password))) {
+            header('Location: users.php');
             $_SESSION['success'] = "User has been added";
-            // header('Location: /users.php');
         } else {
             echo 'Jamaa hajaadiwa';
         }
     } else {
         $_SESSION['error'] = 'Username is already taken';
-        // echo
-            // "<div class='alert alert-danger' role='alert'>
-            //         Username is already taken
-            //     </div>";
     }
 } else {
-// echo 'field can\'t be empty';
+    // echo 'field can\'t be empty';
 }
 
 ?>
-<?php if (isset($_SESSION['success'])): ?>
+<?php if (isset($_SESSION['success'])) : ?>
 <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>Successfully!</strong> <?=$_SESSION['success'];?>
+    <strong>Successfully!</strong> <?= $_SESSION['success'];
+                                        unset($_SESSION['success'])
+                                        ?>
 </div>
-<?php endif;?>
-<?php if (isset($_SESSION['error'])): ?>
+<?php endif; ?>
+<?php if (isset($_SESSION['error'])) : ?>
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <strong>Error!</strong> <?=$_SESSION['error'];?>
+    <strong>Error!</strong> <?= $_SESSION['error'];
+                                unset($_SESSION['error']);
+                                ?>
 </div>
-<?php endif;?>
+<?php endif; ?>
 
 <div class="page-breadcrumb">
     <div class="row">
@@ -152,4 +152,4 @@ unset($_SESSION['error']);
 ?>
 
 
-<?php require 'includes/footer.php';?>
+<?php require 'includes/footer.php'; ?>

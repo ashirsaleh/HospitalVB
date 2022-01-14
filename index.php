@@ -90,7 +90,7 @@ $prepare->execute();
     </div>
 </div>
 <div class="container-fluid">
-    <?php if($_SESSION['user']['role'] == 'Admin'){ ?>
+    <?php if($_SESSION['user']['role'] == 'ADMIN'||$_SESSION['user']['role'] == 'CAPTAIN'){ ?>
     <div class="row">
         <div class="col-16">
             <div class="card">
